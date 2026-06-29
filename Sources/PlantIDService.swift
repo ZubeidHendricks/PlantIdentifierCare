@@ -21,7 +21,8 @@ struct OnDeviceClassifier: PlantIdentifying {
         guard let cg = image.normalizedUp().cgImage else { throw PlantIDError.badImage }
         return try await Task.detached(priority: .userInitiated) {
             let request = VNClassifyImageRequest()
-            try VNImageRequestHandler(cgImage: cg, options: [:]).perform([request])
+            // Classification may be unavailable on Simulator; treat failure as no results.
+            try? VNImageRequestHandler(cgImage: cg, options: [:]).perform([request])
             let observations = (request.results as? [VNClassificationObservation]) ?? []
             let results = observations
                 .filter { $0.confidence > 0.05 }
