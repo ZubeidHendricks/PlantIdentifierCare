@@ -1,0 +1,1 @@
+plant identifier,plant id,identify plant,plant care,garden,houseplant,flower,botany,leaf
